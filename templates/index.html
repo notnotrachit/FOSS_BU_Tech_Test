@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+<form action="/add/" method="post" class="mb-8">
+  <input
+    type="text"
+    name="title"
+    placeholder="Enter a todo item"
+    class="p-2 border rounded"
+  />
+  <button type="submit" class="bg-blue-500 text-white p-2 rounded">
+    Add Todo
+  </button>
+</form>
+
+<ul>
+  {% for todo in todo_list %}
+  <li
+    class="flex items-center justify-between bg-white p-4 mb-4 rounded shadow"
+  >
+    <div class="{% if todo.completed %}line-through{% endif %}">
+      {{ todo.title }}
+    </div>
+    {% if todo.completed %}
+    <span class="text-green-500">✅</span>
+    {% else %}
+    <span class="text-red-500">❗</span>
+    {% endif %}
+    <div>
+      <a href="{{ url_for('update', todo_id=todo.id) }}" class="text-blue-500"
+        >Toggle</a
+      >
+      <a
+        href="{{ url_for('delete', todo_id=todo.id) }}"
+        class="text-red-500 ml-2"
+        >Delete</a
+      >
+    </div>
+  </li>
+  {% else %}
+  <li>No todos yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
